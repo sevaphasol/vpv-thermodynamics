@@ -13,7 +13,7 @@ void show_menu(sf::RenderWindow& window, sf::Font& font, Settings& settings) {
     background.setFillColor(is_dark_theme ? sf::Color(40, 40, 40) : sf::Color(230, 230, 230));
 
     const int field_count = 3;
-    std::string labels[field_count] = {"N", "L", "T (mcs)"};
+    std::string labels[field_count] = {"N", "L (nm)", "T (mcs)"};
     std::string count_str = std::to_string(settings.particle_count);
     std::string size_str = std::to_string(settings.mean_free_path);
     std::string delay_str = std::to_string(settings.delay);

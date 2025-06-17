@@ -668,6 +668,22 @@ void run_simulation(sf::RenderWindow& window, sf::Font& font, Settings settings)
                 window.draw(controls);
             }
 
+            // === Эмпирический расчёт коэффициента диффузии D ===
+            float sum_r_squared = 0.0f;
+            for (const auto& p : particles) {
+                float r = std::sqrt(p.position.x * p.position.x + p.position.y * p.position.y);
+                sum_r_squared += r * r;
+            }
+            float avg_r_squared = sum_r_squared / settings.particle_count;
+
+            float time = static_cast<float>(current_step * settings.delay);
+            float D_empirical = avg_r_squared / (4.0f * time);
+
+            // Вывод значения D на экран
+            sf::Text label_D("D = " + std::to_string(D_empirical).substr(0, 6) + " nm/sec^2", font, 22);
+            label_D.setFillColor(sf::Color::Green);
+            label_D.setPosition(WINDOW_WIDTH - 275, 30);
+            window.draw(label_D);
         } else {
             if (info_mode == 0)
                 draw_histogram_with_rayleigh(window, font, particles, settings.particle_count, settings.mean_free_path, current_step);
